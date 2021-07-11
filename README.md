@@ -1,7 +1,5 @@
 # MagicScreen
 
-![STARS](https://img.shields.io/github/stars/AdrianSosaUV/MagicScreen)
-![Forks](https://img.shields.io/github/forks/AdrianSosaUV/MagicScreen)
 [![Issues](https://img.shields.io/github/issues/AdrianSosaUV/MagicScreen)](https://github.com/AdrianSosaUV/MagicScreen/issues)
 [![MIT License](https://img.shields.io/github/license/AdrianSosaUV/MagicScreen)](https://github.com/AdrianSosaUV/MagicScreen/blob/main/LICENSE)
 
