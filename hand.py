@@ -1,6 +1,4 @@
-import cv2 as cv
-import mediapipe as mp
-import numpy as np
+from settings import *
 
 
 class HandDetection:
@@ -12,33 +10,109 @@ class HandDetection:
             static_image_mode=mode, max_num_hands=max_hands, min_detection_confidence=min_confidence)
         self.capture = capture
         self.coords = None
-        self.frame = None
+        self.height = None
+        self.width = None
         self.diference = None
-        # reference vars
-        self.finger_names = ["THUMB_TIP", "INDEX_FINGER_TIP",
-                             "MIDDLE_FINGER_TIP", "RING_FINGER_TIP", "PINKY_TIP"]
-        self.finger_numbers = [4, 8, 12, 16, 20]
-        self.index = [8, 11]
 
-    def Run(self):
+    def Landmarks(self):
         ret, frame = self.capture.read()
         if ret == False:
             print("No video input sources found!")
-        heigth, width, _ = frame.shape
+        self.height, self.width, _ = frame.shape
         frame = cv.flip(frame, 1)
         frame_rgb = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
         results = self.hands.process(frame_rgb)
         if results.multi_hand_landmarks is not None:
-            for hand_landmarks in results.multi_hand_landmarks:
-                for (i, poins) in enumerate(hand_landmarks.landmark):
-                    if i == self.index[0]:
-                        coor_x = int(poins.x * width)
-                        coor_y = int(poins.y * heigth)
-                    if i == self.index[1]:
-                        x = int(poins.x * width)
-                        y = int(poins.y * heigth)
-                self.coords = {"x": coor_x, "y": coor_y}
-                self.diference = self.distance(coor_x, coor_y, x, y)
+            return results.multi_hand_landmarks
+        else:
+            return None
+
+    def ThumbFinger(self):
+        landmarks = self.Landmarks()
+        if landmarks is not None:
+            for hand_LM in landmarks:
+                x = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.THUMB_TIP].x * self.width)
+                y = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.THUMB_TIP].y * self.height)
+                x1 = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.THUMB_MCP].x * self.width)
+                y1 = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.THUMB_MCP].y * self.height)
+            self.coords = {"x": x, "y": y}
+            self.diference = self.distance(x, y, x1, y1)
+        else:
+            self.coords = None
+            self.diference = None
+
+    def IndexFinger(self):
+        landmarks = self.Landmarks()
+        if landmarks is not None:
+            for hand_LM in landmarks:
+                x = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.INDEX_FINGER_TIP].x * self.width)
+                y = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.INDEX_FINGER_TIP].y * self.height)
+                x1 = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.INDEX_FINGER_MCP].x * self.width)
+                y1 = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.INDEX_FINGER_MCP].y * self.height)
+            self.coords = {"x": x, "y": y}
+            self.diference = self.distance(x, y, x1, y1)
+        else:
+            self.coords = None
+            self.diference = None
+
+    def MiddleFinger(self):
+        landmarks = self.Landmarks()
+        if landmarks is not None:
+            for hand_LM in landmarks:
+                x = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.MIDDLE_FINGER_TIP].x * self.width)
+                y = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.MIDDLE_FINGER_TIP].y * self.height)
+                x1 = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.MIDDLE_FINGER_MCP].x * self.width)
+                y1 = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.MIDDLE_FINGER_MCP].y * self.height)
+            self.coords = {"x": x, "y": y}
+            self.diference = self.distance(x, y, x1, y1)
+        else:
+            self.coords = None
+            self.diference = None
+
+    def RingFinger(self):
+        landmarks = self.Landmarks()
+        if landmarks is not None:
+            for hand_LM in landmarks:
+                x = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.RING_FINGER_TIP].x * self.width)
+                y = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.RING_FINGER_TIP].y * self.height)
+                x1 = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.RING_FINGER_MCP].x * self.width)
+                y1 = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.RING_FINGER_MCP].y * self.height)
+            self.coords = {"x": x, "y": y}
+            self.diference = self.distance(x, y, x1, y1)
+        else:
+            self.coords = None
+            self.diference = None
+
+    def PinkyFinger(self):
+        landmarks = self.Landmarks()
+        if landmarks is not None:
+            for hand_LM in landmarks:
+                x = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.PINKY_TIP].x * self.width)
+                y = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.PINKY_TIP].y * self.height)
+                x1 = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.PINKY_MCP].x * self.width)
+                y1 = int(
+                    hand_LM.landmark[self.mp_hands.HandLandmark.PINKY_MCP].y * self.height)
+            self.coords = {"x": x, "y": y}
+            self.diference = self.distance(x, y, x1, y1)
         else:
             self.coords = None
             self.diference = None
