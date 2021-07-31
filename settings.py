@@ -1,3 +1,8 @@
+import cv2 as cv
+import mediapipe as mp
+import numpy as np
+import sys
+
 # DRAWING COLORS
 GREEN = (0, 255, 35)
 PINK = (128, 0, 255)
