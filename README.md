@@ -1,6 +1,5 @@
 # MagicScreen
 
-[![Issues](https://img.shields.io/github/issues/AdrianSosaUV/MagicScreen)](https://github.com/AdrianSosaUV/MagicScreen/issues)
 [![MIT License](https://img.shields.io/github/license/AdrianSosaUV/MagicScreen)](https://github.com/AdrianSosaUV/MagicScreen/blob/main/LICENSE)
 
   
@@ -10,15 +9,29 @@ For this project i take two tutorials as base for make it possible.
 - [MEDIAPIPE HANDS](https://youtu.be/ipHKQVtwRas)
 - [VIRTUAL PEN](https://youtu.be/KlVSqdF0EWs)
 
-## Demo
+### Install dependencies 
 
-You only need to run main.py
+I recomend use pipenv. 
 
+Install pipenv:
+```bash
+  pip install pipenv
+```
+Activate pipenv shell:
+```bash
+  pipenv shell
+```
+Install dependencies
+```bash
+  pipenv install
+```
+    
+### DRAW!!
+Just Run the main file!
 ```bash
   python main.py
 ```
 
-  
 ## Acknowledgements
 
  - [OMES](https://omes-va.com/)
