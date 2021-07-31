@@ -1,25 +1,25 @@
 
 from settings import *
 from hand import *
-import cv2 as cv
-import sys
 
 
 class MagicScreen:
 
     def __init__(self):
-        """Init function
+        """
+        Init function
         """
         self.capture = cv.VideoCapture(0, cv.CAP_DSHOW)
         self.hands = HandDetection(self.capture)
         self.Config()
 
     def Run(self):
-        """Main function
+        """
+        Main function
         """
         while self.running:
-            # Finger detection
-            self.hands.Run()
+            # Finger selection
+            self.hands.IndexFinger()
             # Video imput
             ret, self.frame = self.capture.read()
             if ret is False:
@@ -63,6 +63,9 @@ class MagicScreen:
             # Principal loop
             try:
                 # Turn on the magic pen
+                ## modify this condition for each finger of each person
+                ## this is the distance between the TIP and MCP finger points
+                ## for more info about finger points read the docs from docs.opencv.org
                 if self.hands.diference > 85:
                     # Finger's coordinates
                     self.x2 = self.hands.coords["x"]
@@ -131,7 +134,7 @@ class MagicScreen:
                             # Draw the stroke
                             self.imAux = cv.line(
                                 self.imAux, (self.x1, self.y1), (self.x2, self.y2), self.COLOR, self.SIZE)
-                        # Draw a circle on fingertip like a pointer
+                        # Draw a circle on fingertip as a pointer
                         cv.circle(self.frame, (self.x2, self.y2),
                                   SMALL, self.COLOR, self.SIZE)
                     self.x1, self.y1 = self.x2, self.y2
@@ -156,7 +159,8 @@ class MagicScreen:
                 self.Close()
 
     def Close(self):
-        """Function for Close the App
+        """
+        Function for Close the App
         """
         self.running = False
         self.capture.release()
@@ -164,7 +168,8 @@ class MagicScreen:
         sys.exit()
 
     def Config(self):
-        """Auxiliary function
+        """
+        Auxiliary function
         """
         self.RECTANGLE_1_WIDTH = SMALL
         self.RECTANGLE_2_WIDTH = SMALL
